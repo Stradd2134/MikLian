@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Panel Admin - Diseños</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #222; color: white; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+    img { max-width: 100%; border: 3px solid #444; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Diseños recibidos (solo vos los ves)</h1>
+  <div id="gallery" class="grid"></div>
+
+  <script>
+    fetch('/api/designs')
+      .then(r => r.json())
+      .then(designs => {
+        const gallery = document.getElementById('gallery');
+        designs.forEach(d => {
+          const div = document.createElement('div');
+          div.innerHTML = `
+            <p><strong>ID:</strong> ${d.id} | ${new Date(d.created_at).toLocaleString()}</p>
+            <img src="${d.image}">
+          `;
+          gallery.appendChild(div);
+        });
+      });
+  </script>
+</body>
+</html>
